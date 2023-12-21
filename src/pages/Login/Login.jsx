@@ -1,5 +1,7 @@
 /* eslint-disable react/no-unescaped-entities */
 
+import { Link } from "react-router-dom";
+
 
 const Login = () => {
     return (
@@ -60,10 +62,12 @@ const Login = () => {
                     </button>
                     <p className="flex justify-center mt-6 font-sans text-sm antialiased font-light leading-normal text-inherit">
                         Don't have an account?
-                        <a href="#signup"
-                            className="block ml-1 font-sans text-sm antialiased font-bold leading-normal text-blue-gray-900">
-                            Sign up
-                        </a>
+                        <Link to='/register'>
+                            <span
+                                className="block ml-1 font-sans text-sm antialiased font-bold leading-normal text-blue-gray-900">
+                                Sign up
+                            </span>
+                        </Link>
                     </p>
                 </div>
             </div>
