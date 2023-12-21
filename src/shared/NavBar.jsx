@@ -1,20 +1,20 @@
-import { NavLink } from "react-router-dom";
+import { Link, NavLink } from "react-router-dom";
 
 
 const NavBar = () => {
     const navLinks = <>
         <NavLink to="/" className={({ isActive }) => isActive ?
-            "bg-[#560bad] text-white py-2 px-4 rounded-lg font-bold " : 
+            "bg-[#560bad] text-white py-2 px-4 rounded-lg font-bold " :
             "hover:bg-[#a284c4] hover:text-white rounded-lg  py-2 px-4 font-bold"} >
             <li><p>Home</p></li>
         </NavLink>
         <NavLink to="/contact" className={({ isActive }) => isActive ?
             "bg-[#560bad] text-white py-2 px-4 rounded-lg font-bold " :
-             "hover:bg-[#b486e8] hover:text-white rounded-lg py-2 px-4 font-bold"} >
+            "hover:bg-[#b486e8] hover:text-white rounded-lg py-2 px-4 font-bold"} >
             <li><p>Contact</p></li>
         </NavLink>
         <NavLink to="/about" className={({ isActive }) => isActive ?
-            "bg-[#560bad] text-white py-2 px-4 rounded-lg font-bold " : 
+            "bg-[#560bad] text-white py-2 px-4 rounded-lg font-bold " :
             "hover:bg-[#a284c4] hover:text-white rounded-lg  py-2 px-4 font-bold"} >
             <li><p>About</p></li>
         </NavLink>
@@ -46,12 +46,14 @@ const NavBar = () => {
                                 </ul>
                             </div>
                             <div className="flex items-center gap-x-1">
-                                
-                                <button
-                                    className="hidden select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block"
-                                    type="button">
-                                    <span>Sign in</span>
-                                </button>
+
+                                <Link to='/login'>
+                                    <button
+                                        className="hidden select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block"
+                                        type="button">
+                                        <span>Sign in</span>
+                                    </button>
+                                </Link>
                             </div>
 
                         </div>
