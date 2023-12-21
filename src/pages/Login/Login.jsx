@@ -4,12 +4,13 @@ import { useContext } from "react";
 import { Link, useLocation, useNavigate } from "react-router-dom";
 import { AuthContext } from "../../provider/AuthProvider";
 import toast from "react-hot-toast";
-import axios from "axios";
+import { FcGoogle } from "react-icons/fc";
+
 
 
 const Login = () => {
 
-    const { signInUser, googleSignIn } = useContext(AuthContext)
+    const { signInUser, googleSigning } = useContext(AuthContext)
     const location = useLocation();
     const navigate = useNavigate();
 
@@ -32,9 +33,18 @@ const Login = () => {
             })
     }
 
-    // const googleSignIn = () =>{
-
-    // }
+    const handleGoogle = () => {
+        googleSigning()
+            .then(result => {
+                console.log(result.user);
+                toast.success('Successfully Logged In!!')
+                navigate(location?.state ? location.state : '/')
+            })
+            .catch(error => {
+                console.log(error);
+                toast.error(error.message)
+            })
+    }
 
     return (
         <div className="w-screen h-screen flex justify-center items-center bg-gray-300">
@@ -91,7 +101,7 @@ const Login = () => {
                     <div className="p-6 pt-0">
                         <button
                             className="block w-full select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-3 px-6 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 "
-                            >
+                        >
                             Sign In
                         </button>
                     </div>
@@ -105,7 +115,14 @@ const Login = () => {
                         </span>
                     </Link>
                 </p>
+                <div className='px-6 w-full flex justify-center my-2'>
+                    <button onClick={handleGoogle} className='hover:bg-black hover:text-white border border-black flex justify-center gap-3  items-center rounded-full py-2 px-8 font-bold w-full '>
+                        <FcGoogle className='text-2xl'></FcGoogle>
+                        <span> Continue with Google</span>
+                    </button>
+                </div>
             </div>
+
         </div>
     );
 };
