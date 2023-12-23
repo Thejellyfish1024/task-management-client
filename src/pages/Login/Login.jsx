@@ -24,7 +24,7 @@ const Login = () => {
                 console.log(result.user);
                 if (result?.user) {
                     toast.success('Successfully Logged In!!')
-                    navigate(location?.state ? location.state : '/dashboard')
+                    navigate(location?.state ? location.state : '/dashboard/home')
                 }
             })
             .catch(error => {
@@ -38,7 +38,7 @@ const Login = () => {
             .then(result => {
                 console.log(result.user);
                 toast.success('Successfully Logged In!!')
-                navigate(location?.state ? location.state : '/dashboard')
+                navigate(location?.state ? location.state : '/dashboard/home')
             })
             .catch(error => {
                 console.log(error);

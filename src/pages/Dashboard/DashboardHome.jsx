@@ -1,36 +1,34 @@
-import { NavLink } from "react-router-dom";
+import TaskTables from "../../components/TaskTables";
 
 
 const DashboardHome = () => {
-    const dashboardLinks = <>
-        <NavLink to="/dashboard" className={({ isActive }) => isActive ?
-            "bg-[#560bad] text-white rounded-lg font-bold " :
-            "hover:bg-[#a284c4] hover:text-white rounded-lg   font-bold"} >
-            <li><p>Dashboard</p></li>
-        </NavLink>
-        <NavLink to="/about" className={({ isActive }) => isActive ?
-            "bg-[#560bad] text-white mt-2 rounded-lg font-bold " :
-            "hover:bg-[#a284c4] hover:text-white rounded-lg mt-2   font-bold"} >
-            <li><p>About</p></li>
-        </NavLink>
-    </>
+
     return (
-        <div>
-            <div className="drawer lg:drawer-open ">
-                <input id="my-drawer-2" type="checkbox" className="drawer-toggle" />
-                <div className="drawer-content flex flex-col items-center justify-center">
-                    {/* Page content here */}
-                    <label htmlFor="my-drawer-2" className="btn btn-primary drawer-button lg:hidden">Open drawer</label>
-
+        <div className="w-4/5 mx-auto">
+            <div className="text-white flex justify-between  mt-8">
+                <div className="w-48 h-28 space-y-2 bg-gradient-to-r from-black to-[#FCDBFF]
+                justify-center items-center rounded-lg flex flex-col">
+                    <p className="text-lg font-bold">20</p>
+                    <h4 className="text-lg font-semibold">Total Tasks</h4>
                 </div>
-                <div className="drawer-side ">
-                    <label htmlFor="my-drawer-2" aria-label="close sidebar" className="drawer-overlay"></label>
-                    <ul className="menu bg-[#d8f3dc] p-4 w-80 min-h-full  text-base-content">
-                        {/* Sidebar content here */}
-                        {dashboardLinks}
-                    </ul>
-
+                <div className="w-48 h-28 space-y-2 bg-gradient-to-r from-[#BB34F5] to-[#FCDBFF]
+                justify-center items-center rounded-lg flex flex-col">
+                    <p className="text-lg font-bold">20</p>
+                    <h4 className="text-lg font-semibold">To-do Tasks</h4>
                 </div>
+                <div className="w-48 h-28 space-y-2 bg-gradient-to-r from-[#D3A256] to-[#FDE8C0]
+                justify-center items-center rounded-lg flex flex-col">
+                    <p className="text-lg font-bold">20</p>
+                    <h4 className="text-lg font-semibold">Ongoing Tasks</h4>
+                </div>
+                <div className="w-48 h-28 space-y-2 bg-gradient-to-r from-[#FE4880] to-[#FECDE9]
+                justify-center items-center rounded-lg flex flex-col">
+                    <p className="text-lg font-bold">20</p>
+                    <h4 className="text-lg font-semibold">Completed Tasks</h4>
+                </div>
+            </div>
+            <div className="mt-10">
+                <TaskTables></TaskTables>
             </div>
         </div>
     );
