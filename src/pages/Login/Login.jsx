@@ -24,7 +24,7 @@ const Login = () => {
                 console.log(result.user);
                 if (result?.user) {
                     toast.success('Successfully Logged In!!')
-                    navigate(location?.state ? location.state : '/')
+                    navigate(location?.state ? location.state : '/dashboard')
                 }
             })
             .catch(error => {
@@ -38,7 +38,7 @@ const Login = () => {
             .then(result => {
                 console.log(result.user);
                 toast.success('Successfully Logged In!!')
-                navigate(location?.state ? location.state : '/')
+                navigate(location?.state ? location.state : '/dashboard')
             })
             .catch(error => {
                 console.log(error);
@@ -47,7 +47,7 @@ const Login = () => {
     }
 
     return (
-        <div className="w-screen h-screen flex justify-center items-center bg-gray-300">
+        <div className="w-screen h-screen flex p-5 md:p-0 justify-center items-center bg-gray-300">
             <div className="relative flex flex-col text-gray-700 bg-white shadow-md w-96 rounded-xl bg-clip-border">
 
                 <div
@@ -56,7 +56,7 @@ const Login = () => {
                         Sign In
                     </h3>
                 </div>
-                <form onSubmit={handleLogin}>
+                <form  onSubmit={handleLogin}>
                     <div className="flex flex-col gap-4 p-6">
                         <div className="relative h-11 w-full min-w-[200px]">
                             <input type="email" required name="email"
