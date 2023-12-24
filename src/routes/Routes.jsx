@@ -7,6 +7,7 @@ import Dashboard from "../layout/Dashboard";
 import DashboardHome from "../pages/Dashboard/DashboardHome";
 import AddTask from "../pages/Dashboard/AddTask";
 import PrivateRoute from "./PrivateRoute";
+import Contact from "../pages/ContactUs/Contact";
 
 export const router = createBrowserRouter([
     {
@@ -24,7 +25,11 @@ export const router = createBrowserRouter([
         {
             path:'/register',
             element:<Register></Register>
-        }
+        },
+        {
+            path:'/contact',
+            element:<Contact></Contact>
+        },
       ],
     },
     {
