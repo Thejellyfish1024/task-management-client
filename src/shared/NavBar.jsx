@@ -1,7 +1,14 @@
+import { useContext, useState } from "react";
 import { Link, NavLink } from "react-router-dom";
+import { AuthContext } from "../provider/AuthProvider";
+import { FaUserCircle } from "react-icons/fa";
+import toast from "react-hot-toast";
 
 
 const NavBar = () => {
+
+    const { user, logOut } = useContext(AuthContext)
+    const [showProfile, setShowProfile] = useState(false);
     const navLinks = <>
         <NavLink to="/" className={({ isActive }) => isActive ?
             "bg-[#560bad] text-white py-2 px-4 rounded-lg font-bold " :
@@ -13,6 +20,15 @@ const NavBar = () => {
             "hover:bg-[#b486e8] hover:text-white rounded-lg py-2 px-4 font-bold"} >
             <li><p>Contact</p></li>
         </NavLink>
+        {
+            user &&
+            <NavLink to="/dashboard/home" className={({ isActive }) => isActive ?
+                "bg-[#560bad] text-white py-2 px-4 rounded-lg font-bold " :
+                "hover:bg-[#b486e8] hover:text-white rounded-lg py-2 px-4 font-bold"} >
+                <li><p>Dashboard</p></li>
+            </NavLink>
+
+        }
         <NavLink to="/about" className={({ isActive }) => isActive ?
             "bg-[#560bad] text-white py-2 px-4 rounded-lg font-bold " :
             "hover:bg-[#a284c4] hover:text-white rounded-lg  py-2 px-4 font-bold"} >
@@ -46,20 +62,58 @@ const NavBar = () => {
                                 </ul>
                             </div>
                             <div className="flex items-center gap-x-1">
+                                {
+                                    user ?
+                                        <button onClick={() => setShowProfile(!showProfile)}>
 
-                                <Link to='/login'>
-                                    <button
-                                        className="hidden select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:inline-block"
-                                        type="button">
-                                        <span>Sign in</span>
-                                    </button>
-                                </Link>
+                                            {
+                                                user?.photoURL ?
+                                                    <img className='w-12 h-12 rounded-full' src={user?.photoURL} alt="not found" />
+                                                    :
+                                                    <FaUserCircle className='text-4xl'></FaUserCircle>
+                                            }
+                                        </button>
+                                        :
+                                        <Link to='/login'>
+                                            <button
+                                                className=" select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none "
+                                                type="button">
+                                                <span>Sign in</span>
+                                            </button>
+                                        </Link>
+                                }
                             </div>
+                        </div>
+                        <div className={`text-end bg-gray-300 z-30 p-5 top-16 right-5 rounded-lg absolute flex justify-center w-60 ${showProfile ? '' : 'hidden'}`}>
+                            <div className="w-full">
+                                <div className="flex justify-center w-full">
+                                    <div>
+                                        {
+                                            user?.photoURL ?
+                                                <img className='w-16 h-16 rounded-full' src={user?.photoURL} alt="not found" />
+                                                :
+                                                <FaUserCircle className='text-4xl'></FaUserCircle>
 
+                                        }
+
+
+                                    </div>
+                                </div>
+                                <div className="flex justify-center">
+                                    <h5 className='text-lg text-black font-semibold mb-2'>{user?.displayName}</h5>
+                                </div>
+                                <p className="text-center mb-2 text-gray-500">{user?.email}</p>
+                                <div className="flex justify-center">
+                                    <button onClick={() => {
+                                        logOut();
+                                        setShowProfile(!showProfile)
+                                        toast.success('User logged out!!')
+                                    }} className=" btn btn-outline text-[#FF3811] btn-sm md:btn-md md:px-6">Log Out</button>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </nav>
-
             </div>
             <div className="fixed w-full top-0 flex pt-3 items-center  justify-between lg:hidden 
             z-10 max-w-full  bg-white border rounded-none shadow-md h-max border-white/80 bg-opacity-80 backdrop-blur-2xl backdrop-saturate-200">
@@ -74,17 +128,59 @@ const NavBar = () => {
                     </div>
                     <a className="btn btn-ghost text-xl">daisyUI</a>
                 </div>
+
                 <div className="pr-7">
-                    <Link to='/login'>
-                        <button
-                            className=" select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:hidden"
-                            type="button">
-                            <span>Sign in</span>
-                        </button>
-                    </Link>
+                    {
+                        user ?
+                            <button onClick={() => setShowProfile(!showProfile)}>
+
+                                {
+                                    user?.photoURL ?
+                                        <img className='w-12 h-12 rounded-full' src={user?.photoURL} alt="not found" />
+                                        :
+                                        <FaUserCircle className='text-4xl'></FaUserCircle>
+                                }
+                            </button>
+                            :
+                            <Link to='/login'>
+                                <button
+                                    className=" select-none rounded-lg bg-gradient-to-tr from-gray-900 to-gray-800 py-2 px-4 text-center align-middle font-sans text-xs font-bold uppercase text-white shadow-md shadow-gray-900/10 transition-all hover:shadow-lg hover:shadow-gray-900/20 active:opacity-[0.85] disabled:pointer-events-none disabled:opacity-50 disabled:shadow-none lg:hidden"
+                                    type="button">
+                                    <span>Sign in</span>
+                                </button>
+                            </Link>
+                    }
+                </div>
+                <div className={`text-end bg-gray-300 z-30 p-5 top-16 right-5 rounded-lg absolute flex justify-center w-60 ${showProfile ? '' : 'hidden'}`}>
+                    <div className="w-full">
+                        <div className="flex justify-center w-full">
+                            <div>
+                                {
+                                    user?.photoURL ?
+                                        <img className='w-16 h-16 rounded-full' src={user?.photoURL} alt="not found" />
+                                        :
+                                        <FaUserCircle className='text-4xl'></FaUserCircle>
+
+                                }
+
+
+                            </div>
+                        </div>
+                        <div className="flex justify-center">
+                            <h5 className='text-lg text-black font-semibold mb-2'>{user?.displayName}</h5>
+                        </div>
+                        <p className="text-center mb-2 text-gray-500">{user?.email}</p>
+                        <div className="flex justify-center">
+                            <button onClick={() => {
+                                logOut();
+                                setShowProfile(!showProfile)
+                                toast.success('User logged out!!')
+                            }} className=" btn btn-outline text-[#FF3811] btn-sm md:btn-md md:px-6">Log Out</button>
+                        </div>
+                    </div>
                 </div>
             </div>
-           
+
         </div>
     );
 };
