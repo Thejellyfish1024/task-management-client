@@ -29,10 +29,10 @@ const NavBar = () => {
             </NavLink>
 
         }
-        <NavLink to="/about" className={({ isActive }) => isActive ?
+        <NavLink to="/pricing" className={({ isActive }) => isActive ?
             "bg-[#560bad] text-white py-2 px-4 rounded-lg font-bold " :
             "hover:bg-[#a284c4] hover:text-white rounded-lg  py-2 px-4 font-bold"} >
-            <li><p>About</p></li>
+            <li><p>Pricing</p></li>
         </NavLink>
     </>
     return (
@@ -51,10 +51,10 @@ const NavBar = () => {
                                 </svg>
                             </span>
                         </button>
-                        <a href="#"
-                            className="mr-4 block cursor-pointer py-1.5 font-sans text-base font-medium leading-relaxed text-inherit antialiased">
-                            Material Tailwind
-                        </a>
+                        <p
+                            className="mr-4 block cursor-pointer py-1.5 font-sans text-xl font-bold leading-relaxed text-inherit antialiased">
+                            ProTask
+                        </p>
                         <div className="flex items-center gap-4">
                             <div className="hidden mr-4 lg:block">
                                 <ul className="flex flex-col gap-2 mt-2 mb-4 lg:mb-0 lg:mt-0 lg:flex-row lg:items-center lg:gap-3">
@@ -126,7 +126,7 @@ const NavBar = () => {
                             {navLinks}
                         </ul>
                     </div>
-                    <a className="btn btn-ghost text-xl">daisyUI</a>
+                    <a className="btn btn-ghost text-xl">ProTask</a>
                 </div>
 
                 <div className="pr-7">

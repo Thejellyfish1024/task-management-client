@@ -4,9 +4,21 @@ import useTasks from "../hooks/useTasks";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import UpdateTask from "./UpdateTask";
 import { useState } from "react";
+import { useDrag } from "react-dnd";
 
 
 const TaskTables = () => {
+
+    const [{ isDragging }, drag, dragPreview] = useDrag(() => ({
+		// "type" is required. It is used by the "accept" specification of drop targets.
+    type: 'task',
+		// The collect function utilizes a "monitor" instance (see the Overview for what this is)
+		// to pull important pieces of state from the DnD system.
+    collect: (monitor) => ({
+      isDragging: monitor.isDragging()
+    })
+  }))
+
     // const {user} = useContext(AuthContext)
     const [updateData, setUpdateData ] = useState({})
     const axiosPublic = useAxiosPublic()
@@ -79,7 +91,7 @@ const TaskTables = () => {
                             todoTasks?.length > 0 &&
                             <tbody>
                                 {
-                                    todoTasks?.map(todo => <tr key={todo?._id}
+                                    todoTasks?.map(todo => <tr key={todo?._id} ref={drag}
                                         className="hover:bg-[#BB34F5] hover:text-white bg-gray-300">
                                         <td className="text-center">{todo?.taskName}</td>
                                         <td className="text-center max-w-72">{todo?.description}</td>

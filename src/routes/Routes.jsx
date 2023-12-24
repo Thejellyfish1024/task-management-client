@@ -8,6 +8,7 @@ import DashboardHome from "../pages/Dashboard/DashboardHome";
 import AddTask from "../pages/Dashboard/AddTask";
 import PrivateRoute from "./PrivateRoute";
 import Contact from "../pages/ContactUs/Contact";
+import Pricing from "../pages/Pricing/Pricing";
 
 export const router = createBrowserRouter([
     {
@@ -29,6 +30,10 @@ export const router = createBrowserRouter([
         {
             path:'/contact',
             element:<Contact></Contact>
+        },
+        {
+            path:'/pricing',
+            element:<Pricing></Pricing>
         },
       ],
     },
