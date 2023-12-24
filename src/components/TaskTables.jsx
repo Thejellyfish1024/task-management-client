@@ -1,20 +1,62 @@
 
+import Swal from "sweetalert2";
 import useTasks from "../hooks/useTasks";
+import useAxiosPublic from "../hooks/useAxiosPublic";
+import UpdateTask from "./UpdateTask";
+import { useState } from "react";
 
 
 const TaskTables = () => {
     // const {user} = useContext(AuthContext)
-    const {data} = useTasks();
+    const [updateData, setUpdateData ] = useState({})
+    const axiosPublic = useAxiosPublic()
+
+    const { data, refetch } = useTasks();
     console.log(data);
     const todoTasks = data?.filter(task => task?.status === 'todo')
     const ongoingTasks = data?.filter(task => task?.status === 'ongoing')
     const completedTasks = data?.filter(task => task?.status === 'completed')
-    console.log(todoTasks,ongoingTasks,completedTasks);
+    console.log(todoTasks, ongoingTasks, completedTasks);
+
+    const handleDelete = id => {
+
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, delete it!"
+        }).then((result) => {
+            if (result.isConfirmed) {
+                axiosPublic.delete(`/task/${id}`)
+                    .then(res => {
+                        console.log(res.data);
+                        if (res?.data?.deletedCount > 0) {
+                            refetch();
+                            Swal.fire({
+                                title: "Deleted!",
+                                text: "Task has been deleted.",
+                                icon: "success"
+                            });
+                        }
+                    })
+            }
+        });
+    }
+
+    const handleUpdate = task => {
+        document.getElementById('my_modal_5').showModal()
+        console.log(task);
+        setUpdateData(task)
+    }
+
 
     return (
         <div className="mt-16 space-y-8">
-            
-            
+
+
             {/* todo */}
             <div>
                 <h2 className="text-[#BB34F5] text-2xl uppercase mb-5 font-bold">To-Do Lists</h2>
@@ -50,13 +92,13 @@ const TaskTables = () => {
                                             </p>
                                         </td>
                                         <td className="text-center">
-                                        <button className='bg-violet-500 hover:bg-black text-white py-2 px-4 rounded-lg'>To-do</button>
+                                            <button className='bg-violet-500 hover:bg-black text-white py-2 px-4 rounded-lg'>To-do</button>
                                         </td>
                                         <td className="text-center">
-                                        <button className='bg-red-500 hover:bg-black text-white py-2 px-4 rounded-lg'>Delete</button>
+                                            <button onClick={() => handleDelete(todo?._id)} className='bg-red-500 hover:bg-black text-white py-2 px-4 rounded-lg'>Delete</button>
                                         </td>
                                         <td className="text-center">
-                                        <button className='bg-green-600 hover:bg-black text-white py-2 px-4 rounded-lg'>Update</button>
+                                            <button onClick={() => handleUpdate(todo)} className='bg-green-600 hover:bg-black text-white py-2 px-4 rounded-lg'>Update</button>
                                         </td>
 
                                     </tr>)
@@ -106,13 +148,13 @@ const TaskTables = () => {
                                             </p>
                                         </td>
                                         <td className="text-center">
-                                        <button className='bg-orange-500 hover:bg-black text-white py-2 px-4 rounded-lg'>Ongoing</button>
+                                            <button className='bg-orange-500 hover:bg-black text-white py-2 px-4 rounded-lg'>Ongoing</button>
                                         </td>
                                         <td className="text-center">
-                                        <button className='bg-red-500 hover:bg-black text-white py-2 px-4 rounded-lg'>Delete</button>
+                                            <button onClick={() => handleDelete(ongoing?._id)} className='bg-red-500 hover:bg-black text-white py-2 px-4 rounded-lg'>Delete</button>
                                         </td>
                                         <td className="text-center">
-                                        <button className='bg-green-600 hover:bg-black text-white py-2 px-4 rounded-lg'>Update</button>
+                                            <button className='bg-green-600 hover:bg-black text-white py-2 px-4 rounded-lg'>Update</button>
                                         </td>
 
                                     </tr>)
@@ -162,13 +204,13 @@ const TaskTables = () => {
                                             </p>
                                         </td>
                                         <td className="text-center">
-                                        <button className='bg-green-600 hover:bg-black text-white py-2 px-4 rounded-lg'>Completed</button>
+                                            <button className='bg-green-600 hover:bg-black text-white py-2 px-4 rounded-lg'>Completed</button>
                                         </td>
                                         <td className="text-center">
-                                        <button className='bg-red-500 hover:bg-black text-white py-2 px-4 rounded-lg'>Delete</button>
+                                            <button onClick={() => handleDelete(completed?._id)} className='bg-red-500 hover:bg-black text-white py-2 px-4 rounded-lg'>Delete</button>
                                         </td>
                                         <td className="text-center">
-                                        <button className='bg-green-600 hover:bg-black text-white py-2 px-4 rounded-lg'>Update</button>
+                                            <button className='bg-green-600 hover:bg-black text-white py-2 px-4 rounded-lg'>Update</button>
                                         </td>
 
                                     </tr>)
@@ -183,6 +225,10 @@ const TaskTables = () => {
                     }
                 </div>
             </div>
+
+            {/* update modal */}
+            {/* Open the modal using document.getElementById('ID').showModal() method */}
+            <UpdateTask updateData={updateData} refetch={refetch}></UpdateTask>
         </div>
     );
 };
