@@ -4,24 +4,15 @@ import useTasks from "../hooks/useTasks";
 import useAxiosPublic from "../hooks/useAxiosPublic";
 import UpdateTask from "./UpdateTask";
 import { useState } from "react";
-import { useDrag } from "react-dnd";
+
 
 
 const TaskTables = () => {
 
-    const [{ isDragging }, drag, dragPreview] = useDrag(() => ({
-		// "type" is required. It is used by the "accept" specification of drop targets.
-    type: 'task',
-		// The collect function utilizes a "monitor" instance (see the Overview for what this is)
-		// to pull important pieces of state from the DnD system.
-    collect: (monitor) => ({
-      isDragging: monitor.isDragging()
-    })
-  }))
-
     // const {user} = useContext(AuthContext)
-    const [updateData, setUpdateData ] = useState({})
+    const [updateData, setUpdateData] = useState({})
     const axiosPublic = useAxiosPublic()
+    const [statusId, setStatusId] = useState(null)
 
     const { data, refetch } = useTasks();
     console.log(data);
@@ -64,6 +55,45 @@ const TaskTables = () => {
         setUpdateData(task)
     }
 
+    const handleStatus = id => {
+        document.getElementById('my_modal_6').showModal()
+        console.log(id);
+        setStatusId(id)
+    }
+
+    const handleStatusUpdate = e => {
+        e.preventDefault();
+        document.getElementById('my_modal_6').close()
+        const newStatus = e.target.status.value;
+        console.log(newStatus, statusId);
+        Swal.fire({
+            title: "Are you sure?",
+            text: "You won't be able to revert this!",
+            icon: "warning",
+            showCancelButton: true,
+            confirmButtonColor: "#3085d6",
+            cancelButtonColor: "#d33",
+            confirmButtonText: "Yes, update it!"
+        }).then( async(result) => {
+            if (result.isConfirmed) {
+
+                await axiosPublic.patch(`/task-status/${statusId}`, {newStatus})
+                    .then(res => {
+                        console.log(res.data);
+                        if (res?.data?.modifiedCount > 0) {
+                            refetch();
+                            Swal.fire({
+                                title: "Updated!",
+                                text: "Status has been updated.",
+                                icon: "success"
+                            });
+                        }
+                    })
+            }
+        });
+        
+    }
+
 
     return (
         <div className="mt-16 space-y-8">
@@ -91,8 +121,8 @@ const TaskTables = () => {
                             todoTasks?.length > 0 &&
                             <tbody>
                                 {
-                                    todoTasks?.map(todo => <tr key={todo?._id} ref={drag}
-                                        className="hover:bg-[#BB34F5] hover:text-white bg-gray-300">
+                                    todoTasks?.map(todo => <tr key={todo?._id}
+                                        className=" bg-gray-300">
                                         <td className="text-center">{todo?.taskName}</td>
                                         <td className="text-center max-w-72">{todo?.description}</td>
                                         <td className="text-center">{todo?.priority}</td>
@@ -104,7 +134,8 @@ const TaskTables = () => {
                                             </p>
                                         </td>
                                         <td className="text-center">
-                                            <button className='bg-violet-500 hover:bg-black text-white py-2 px-4 rounded-lg'>To-do</button>
+                                            <button onClick={() => handleStatus(todo?._id)}
+                                                className='bg-violet-500 hover:bg-black text-white py-2 px-4 rounded-lg'>To-do</button>
                                         </td>
                                         <td className="text-center">
                                             <button onClick={() => handleDelete(todo?._id)} className='bg-red-500 hover:bg-black text-white py-2 px-4 rounded-lg'>Delete</button>
@@ -148,7 +179,7 @@ const TaskTables = () => {
                             <tbody>
                                 {
                                     ongoingTasks?.map(ongoing => <tr key={ongoing}
-                                        className="hover:bg-[#D3A256] hover:text-white bg-gray-300">
+                                        className=" bg-gray-300">
                                         <td className="text-center">{ongoing?.taskName}</td>
                                         <td className="text-center max-w-72">{ongoing?.description}</td>
                                         <td className="text-center">{ongoing?.priority}</td>
@@ -204,7 +235,7 @@ const TaskTables = () => {
                             <tbody>
                                 {
                                     completedTasks?.map(completed => <tr key={completed}
-                                        className="hover:bg-[#FE4880] hover:text-white bg-gray-300">
+                                        className=" bg-gray-300">
                                         <td className="text-center">{completed?.taskName}</td>
                                         <td className="text-center max-w-72">{completed?.description}</td>
                                         <td className="text-center">{completed?.priority}</td>
@@ -241,7 +272,30 @@ const TaskTables = () => {
             {/* update modal */}
             {/* Open the modal using document.getElementById('ID').showModal() method */}
             <UpdateTask updateData={updateData} refetch={refetch}></UpdateTask>
+            {/* Open the modal using document.getElementById('ID').showModal() method */}
+
+            <dialog id="my_modal_6" className="modal modal-bottom sm:modal-middle">
+                <div className="modal-box">
+                    <h3 className="font-bold text-lg">Status!</h3>
+                    <form onSubmit={handleStatusUpdate}>
+                        <select name="status" className='py-3 pl-4 w-full border border-gray-300 mt-3 rounded-md'>
+                            <option value="todo">To-do</option>
+                            <option value="ongoing">Ongoing</option>
+                            <option value="completed">Completed</option>
+                        </select>
+                        <button className="btn bg-green-700 text-white mt-4 text-center">Update</button>
+                    </form>
+                    <div className="modal-action">
+                        <form method="dialog">
+                            {/* if there is a button in form, it will close the modal */}
+                            <button className="btn bg-red-500 text-white">Close</button>
+                        </form>
+                    </div>
+                </div>
+            </dialog>
         </div>
+
+
     );
 };
 
