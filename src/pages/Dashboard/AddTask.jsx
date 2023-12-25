@@ -31,7 +31,7 @@ const AddTask = () => {
                 Swal.fire({
                     position: "top-end",
                     icon: "success",
-                    title: "Successfully added the item",
+                    title: "Successfully added the task",
                     showConfirmButton: false,
                     timer: 1500
                 });
@@ -39,8 +39,8 @@ const AddTask = () => {
 
     }
     return (
-        <div className="flex justify-center items-center h-screen">
-             <div className="w-2/3 md:p-12 bg-black   rounded-md mb-16">
+        <div className="flex justify-center lg:pt-0 pt-44 md:pt-36 items-center h-screen">
+             <div className="md:w-2/3 md:p-12 bg-black   rounded-md mb-16">
                     <form className=" p-4 lg:p-0" onSubmit={handleSubmit(onSubmit)}>
                         {/*  */}
                         <div className="flex flex-col md:flex-row gap-5 w-full">
