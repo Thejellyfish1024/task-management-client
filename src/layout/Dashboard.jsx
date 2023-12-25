@@ -33,7 +33,7 @@ const Dashboard = () => {
                             <label htmlFor="my-drawer-2" className="drawer-button lg:hidden">
                                 <MdOutlineDashboardCustomize size={24} className="text-blue-600"></MdOutlineDashboardCustomize>
                             </label>
-                            <p className="font-bold text-blue-600">Dashboard</p>
+                            <p className="font-bold text-blue-600">ProTask</p>
                         </div>
                         <Outlet></Outlet>
 
