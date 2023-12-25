@@ -191,7 +191,8 @@ const TaskTables = () => {
                                             </p>
                                         </td>
                                         <td className="text-center">
-                                            <button className='bg-orange-500 hover:bg-black text-white py-2 px-4 rounded-lg'>Ongoing</button>
+                                            <button onClick={() => handleStatus(ongoing?._id)}
+                                             className='bg-orange-500 hover:bg-black text-white py-2 px-4 rounded-lg'>Ongoing</button>
                                         </td>
                                         <td className="text-center">
                                             <button onClick={() => handleDelete(ongoing?._id)} className='bg-red-500 hover:bg-black text-white py-2 px-4 rounded-lg'>Delete</button>
@@ -247,7 +248,8 @@ const TaskTables = () => {
                                             </p>
                                         </td>
                                         <td className="text-center">
-                                            <button className='bg-green-600 hover:bg-black text-white py-2 px-4 rounded-lg'>Completed</button>
+                                            <button onClick={() => handleStatus(completed?._id)}
+                                            className='bg-green-600 hover:bg-black text-white py-2 px-4 rounded-lg'>Completed</button>
                                         </td>
                                         <td className="text-center">
                                             <button onClick={() => handleDelete(completed?._id)} className='bg-red-500 hover:bg-black text-white py-2 px-4 rounded-lg'>Delete</button>
